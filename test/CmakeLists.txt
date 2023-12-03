@@ -1,0 +1,24 @@
+# Set the minimum required version of CMake
+cmake_minimum_required(VERSION 3.10)
+
+# Define the project for the tests
+project(TrieTests)
+
+# Enable testing functionalities
+enable_testing()
+
+# Find the Google Test package (assuming it's installed globally)
+find_package(GTest REQUIRED)
+
+# Include the test directories and the main project directory
+include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(../src)
+
+# Add the test executable
+add_executable(runUnitTests test_main.cpp ../src/Trie.cpp ../src/TrieNode.cpp)
+
+# Link against Google Test and the main project library (if applicable)
+target_link_libraries(runUnitTests ${GTEST_LIBRARIES} pthread)
+
+# Add the tests to be run
+add_test(NAME AllTestsInTrie COMMAND runUnitTests)
