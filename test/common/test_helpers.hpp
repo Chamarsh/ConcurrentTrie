@@ -15,6 +15,7 @@ public:
     static void printTrie(Trie* trie);
     static void printWords(std::vector<std::string> words);
     static bool compareWords(std::vector<std::string> v1, std::vector<std::string> v2);
+    
 };
 
 #endif // TEST_HELPERS_H
