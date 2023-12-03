@@ -1,0 +1,5 @@
+if(EXISTS "/Users/chasemarshall/Documents/Projects/C++/ConcurrentTrie/test/build/runUnitTests[1]_tests.cmake")
+  include("/Users/chasemarshall/Documents/Projects/C++/ConcurrentTrie/test/build/runUnitTests[1]_tests.cmake")
+else()
+  add_test(runUnitTests_NOT_BUILT runUnitTests_NOT_BUILT)
+endif()

@@ -7,10 +7,11 @@
 #include "test_helpers.hpp"
 
 std::vector<std::string> TestHelpers::parseFile(std::string filename){
+    filename = "../test_files/" + filename;
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cout << "Error opening file" << std::endl;
-        return;
+        return std::vector<std::string>();
     }
 
     std::vector<std::string> words;
@@ -19,6 +20,7 @@ std::vector<std::string> TestHelpers::parseFile(std::string filename){
         words.push_back(word);
     }
 
+    return words;
 }
 
 void TestHelpers::printTrie(TrieNode* node, std::string currentWord) {

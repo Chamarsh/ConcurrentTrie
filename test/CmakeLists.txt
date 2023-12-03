@@ -1,24 +1,27 @@
-# Set the minimum required version of CMake
-cmake_minimum_required(VERSION 3.10)
-
-# Define the project for the tests
+cmake_minimum_required(VERSION 3.14)
 project(TrieTests)
 
 # Enable testing functionalities
 enable_testing()
 
-# Find the Google Test package (assuming it's installed globally)
-find_package(GTest REQUIRED)
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+FetchContent_MakeAvailable(googletest)
 
-# Include the test directories and the main project directory
-include_directories(${GTEST_INCLUDE_DIRS})
-include_directories(../src)
+# Include directories
+include_directories(../src)  # Adjust if your source files are in a different directory
 
 # Add the test executable
-add_executable(runUnitTests test_main.cpp ../src/Trie.cpp ../src/TrieNode.cpp)
+add_executable(runUnitTests test_main.cpp ../src/TrieNode.cpp ../src/Trie.cpp ./common/test_helpers.cpp)
 
 # Link against Google Test and the main project library (if applicable)
-target_link_libraries(runUnitTests ${GTEST_LIBRARIES} pthread)
+target_link_libraries(runUnitTests gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(runUnitTests)
 
 # Add the tests to be run
 add_test(NAME AllTestsInTrie COMMAND runUnitTests)

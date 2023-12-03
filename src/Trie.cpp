@@ -64,7 +64,7 @@ void Trie::insertRecursive(TrieNode* node, const std::string& word, int index){
     return searchRecursive(child, word, index + 1);
 }
 
-void removeRecursive(TrieNode* node, const std::string& word, int index){
+void Trie::removeRecursive(TrieNode* node, const std::string& word, int index){
     node->nodeMutex.lock();
     if(index == word.length()){
         node->setIsEndOfWord(false);
@@ -98,8 +98,8 @@ void Trie::dfs(TrieNode* node, std::string currentWord, std::vector<std::string>
     for (char c = 'a'; c <= 'z'; ++c) {
         node->nodeMutex.lock();
         TrieNode* child = node->getChild(std::string(1, c));
+        node->nodeMutex.unlock();
         if (child != nullptr) {
-            node->nodeMutex.unlock();
             dfs(child, currentWord + c, words);
         }
     }
@@ -111,7 +111,10 @@ std::vector<std::string> Trie::startsWithRecursive(TrieNode* root, const std::st
 
     // Traverse the Trie up to the end of the prefix
     for (char c : prefix) {
-        current = current->getChild(std::string(1, c));
+        current->nodeMutex.lock();
+        TrieNode* child = current->getChild(std::string(1, c));
+        current->nodeMutex.unlock();
+        current = child;
         if (current == nullptr) {
             // Prefix not found, return empty vector
             return words;
